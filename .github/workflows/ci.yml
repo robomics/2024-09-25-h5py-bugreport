@@ -36,6 +36,6 @@ jobs:
       - name: Install h5py v3.12
         run: pip install 'h5py==3.12'
 
-      - name: Trigger import error:
+      - name: Trigger import error
         run: python3 -c 'import h5py'
 
