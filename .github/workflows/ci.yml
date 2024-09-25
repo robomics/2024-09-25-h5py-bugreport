@@ -34,6 +34,15 @@ jobs:
       - name: Install h5py v3.12
         run: pip install 'h5py==3.12'
 
+      - name: Find Visual Studio
+        if: matrix.os == 'windows-latest'
+        id: visual-studio
+        shell: pwsh
+        run: |
+          $path = & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" `
+            -latest -property installationPath -format value
+          "install_path=$path" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+
       - name: Inspect DLL
         if: matrix.os == 'windows-latest'
         shell: pwsh
