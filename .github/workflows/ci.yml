@@ -1,0 +1,41 @@
+# Copyright (C) 2024 Roberto Rossini (roberros@uio.no)
+# SPDX-License-Identifier: MIT
+
+name: Run hictk_integration_suite unit tests
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/ci.yml"
+
+  pull_request:
+    paths:
+      - ".github/workflows/ci.yml"
+
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  ci:
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install h5py v3.12
+        run: pip install 'h5py==3.12'
+
+      - name: Trigger import error:
+        run: python3 -c 'import h5py'
+
