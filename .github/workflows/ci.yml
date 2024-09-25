@@ -14,10 +14,6 @@ on:
       - ".github/workflows/ci.yml"
 
 
-defaults:
-  run:
-    shell: bash
-
 jobs:
   ci:
     strategy:
@@ -25,7 +21,7 @@ jobs:
       matrix:
         # python-version: ["3.9", "3.10", "3.11", "3.12"]
         python-version: ["3.12"]
-        os: [macos-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest]
 
     runs-on: ${{ matrix.os }}
     steps:
@@ -38,6 +34,10 @@ jobs:
       - name: Install h5py v3.12
         run: pip install 'h5py==3.12'
 
+      - name: Inspect DLL
+        if: matrix.os == 'windows-latest'
+        run: dumpbin /dependents C:\hostedtoolcache\windows\Python\3.12.*\x64\Lib\site-packages\h5py\_errors*.pyd
+      
       - name: Trigger import error
         run: python3 -v -c 'import h5py'
 
