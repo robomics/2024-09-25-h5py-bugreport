@@ -36,6 +36,7 @@ jobs:
 
       - name: Inspect DLL
         if: matrix.os == 'windows-latest'
+        shell: cmd
         run: dumpbin /dependents C:\hostedtoolcache\windows\Python\3.12.*\x64\Lib\site-packages\h5py\_errors*.pyd
       
       - name: Trigger import error
