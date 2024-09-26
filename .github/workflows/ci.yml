@@ -57,6 +57,11 @@ jobs:
 
           & $DumpbinPath /dependents $DPydPath
       
+      - name: Inspect h5py folder
+        if: matrix.os == 'windows-latest'
+        shell: bash
+        run: ls -lah C:\hostedtoolcache\windows\Python\3.12.*\x64\Lib\site-packages\h5py\
+      
       - name: Trigger import error
         run: python3 -v -c 'import h5py'
 
